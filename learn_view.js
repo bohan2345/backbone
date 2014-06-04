@@ -8,7 +8,7 @@ var TodoView = Backbone.View.extend({
 		"click .title" : "select",
 		"mouseover .title .date" : "showTooltip"
 	},
-	template : _template("<h3><%= description %><h3>"),
+	template : _.template("<h3><%= description %><h3>"),
 	render : function() {
 		var attributes = this.model.toJSON();
 		this.$el.html(this.template(attributes));
