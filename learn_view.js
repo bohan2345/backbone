@@ -4,14 +4,21 @@ var TodoView = Backbone.View.extend({
 	id : "todo-view",
 	className : "todo",
 	events : {
-		"dbclick" : "open",
+		"dblclick" : "open",
 		"click .title" : "select",
 		"mouseover .title .date" : "showTooltip"
 	},
 	template : _.template("<h3><%= description %><h3>"),
+	initialize : function() {
+		this.model.on('change', this.render, this);
+		this.model.on('destroy', this.remove, this);
+	},
 	render : function() {
 		var attributes = this.model.toJSON();
 		this.$el.html(this.template(attributes));
+	},
+	remove : function() {
+		this.$el.remove();
 	},
 	open : function() {
 	},
