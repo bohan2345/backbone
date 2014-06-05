@@ -9,7 +9,7 @@ var TodoView = Backbone.View.extend({
 		"mouseover .title .date" : "showTooltip"
 	},
 	template : _.template("<h3><%= description %><h3>"),
-	initialize : function() {
+	initialize : function() {//add listener to the changes to the model
 		this.model.on('change', this.render, this);
 		this.model.on('destroy', this.remove, this);
 	},
@@ -34,3 +34,27 @@ var todoView = new TodoView({
 });
 
 todoView.render();
+
+//create a collection view
+var todoListView = Backbone.View.extend({
+	initialize : function() {
+		this.collection.on("add", this.addOne, this);
+		this.collection.on("reset", this.addAll, this);//why not just call render?? (should work)
+	},
+	render : function() {
+		this.collection.forEach(this.addOne, this);
+	},
+	addOne : function(todoItem) {
+		var todoView = new TodoView({
+			model : todoItem
+		});
+		this.$el.append(todoView.render().el);
+	},
+	addAll : function() {
+		this.collection.forEach(this.addOne, this);
+	}
+});
+var todoListView = new TodoListView({
+	collection : todoList
+});
+

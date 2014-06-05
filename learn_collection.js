@@ -19,8 +19,8 @@ todoList.reset(a_list_of_new_models);
 todoList.url = "/models";
 todoList.fetch();
 
-//add event listener
-todoList.on("add", function() {
+//add event listener (todoItem is the new item been added)
+todoList.on("add", function(todoItem) {
 });
 
 //iteration (call the function for each item)
