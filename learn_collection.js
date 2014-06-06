@@ -36,3 +36,31 @@ todoList.map(function(todoItem) {
 todoList.filter(function(todoItem) {
 	return todoItem.get("id") > 2;
 });
+
+//customizing collections
+var TodoItems = Backbone.Collection.extend({
+	//overriding parse function
+	parse : function(response) {
+		this.total = response.total;
+		this.page = response.page;
+		return response.todos;
+	},
+	//sorting by comparator
+	comparator : function(todo1, todo2) {
+		return todo1.get("date") < todo2.get("date");
+	},
+	//count function
+	cancelledCount : function() {
+		return this.where({
+			cancelled : true
+		}).length;
+	}
+});
+
+//fetch with extra parameters
+todoItems.fetch({
+	data : {
+		page : 1
+	}
+});
+
